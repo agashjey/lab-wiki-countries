@@ -1,24 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import CountriesList from './Components/CountriesList';
+import CountryDetails from './Components/CountryDetails';
+import Navbar from './Components/Navbar';
+import { Route, Routes } from 'react-router-dom'
+//import countries from "./countries.json"
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
+  const [countriesState, setCountriesState] = useState([]);
+  
+  useEffect(() => {
+    const url = `https://ih-countries-api.herokuapp.com/countries`
+
+    // let's use an API to get info about this country
+    axios
+      .get(url)
+      .then((response) => {
+        setCountriesState(response.data)
+      }).catch((error) => {
+          console.error(error);
+      })
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar/>
+        <div className="container">
+          <div className="row">
+
+            <CountriesList countriesState={countriesState}/>
+            <Routes>
+              <Route path="/countries/:cca3" element={<CountryDetails countriesState={countriesState} />}/>
+            </Routes>
+
+          </div>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
