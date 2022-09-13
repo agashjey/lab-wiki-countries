@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-//import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const CountryDetails = ({countriesState}) => {
     const {cca3} = useParams();
@@ -10,20 +10,6 @@ const CountryDetails = ({countriesState}) => {
     
     const cca2 = country.alpha2Code.toLowerCase();
     const url = `https://flagpedia.net/data/flags/icon/72x54/${cca2}.png`;
-   
-    
-    // const getCountryName = (border) => {
-    //     const countryName = countriesState.find(country => country.alpha3code === border).name.common;
-    //     return (
-    //         <>
-    //              <li>
-    //                 <Link to={`/countries/${border}`}>
-    //                        {countryName}                 
-    //                 </Link>
-    //             </li>
-    //         </>
-    //     )
-    // }
 
     return (
         <div className='CountryDetails col-7' key={country.alpha3Code}>
@@ -46,7 +32,15 @@ const CountryDetails = ({countriesState}) => {
                         <td>Borders</td>
                         <td>
                             <ul>
-                                {/* {country.borders.map(border => getCountryName(border))} */}
+                                {country.borders.map(border => {
+                                    return (
+                                        <li key={border}>
+                                            <Link  to={`/countries/${border}`}>
+                                                {countriesState.find(country => country.alpha3Code === border).name.common}
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
                             </ul>
                         </td>
                     </tr>

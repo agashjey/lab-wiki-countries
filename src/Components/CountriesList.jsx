@@ -6,7 +6,9 @@ const CountriesList = ({countriesState}) => {
   return (
     <div className='CountriesList col-5'>
         <div className="list-group">
-        {countriesState.map((country) => {
+        {countriesState
+        .sort((a,b) => a.name.common.localeCompare(b.name.common))
+        .map((country) => {
             return (
               <span className="list-group-item list-group-item-action" key={country.alpha3Code}>
                   <Link to={`/countries/${country.alpha3Code}`}>{country.name.common}</Link>
